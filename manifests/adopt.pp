@@ -17,7 +17,10 @@ class openjdk::adopt (
     $versions.each |$version| {
       ensure_packages("adoptopenjdk-${version}", {
         ensure => $ensure,
-        require => Class['openjdk::repo::adopt'],
+        require => [
+          Class['Openjdk::Repo::Adopt'],
+          Class['Apt::Update']
+        ],
       } )
     }
   }
