@@ -4,8 +4,21 @@
 #
 # @example
 #   openjdk::adopt { 'namevar': }
-define openjdk::adopt (
+class openjdk::adopt (
+  Array[String] $versions = ['8-openj9xl'],
+  String $ensure = 'present'
 ) {
 
   include openjdk::repo::adopt
+
+  if(!empty($versions)){
+    $_packages = []
+
+    $versions.each |$version| {
+      ensure_packages("adoptopenjdk-${version}", {
+        ensure => $ensure,
+        require => Class['openjdk::repo::adopt'],
+      } )
+    }
+  }
 }
