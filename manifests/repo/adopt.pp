@@ -22,6 +22,7 @@ class openjdk::repo::adopt {
         include  => {
           src => false,
         },
+        notify   => Class['apt::update'],
       }
     }
 
